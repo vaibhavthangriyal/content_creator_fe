@@ -1,1 +1,83 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Round');
+
+:root {
+  --surface: #05060b;
+  --surface-muted: #0b0d16;
+  --card: rgba(255, 255, 255, 0.04);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text-primary: #f9fbff;
+  --text-muted: rgba(249, 251, 255, 0.7);
+  --accent-tech: #4fd1c5;
+  --accent-science: #c084fc;
+  --accent-space: #60a5fa;
+  --accent-math: #fbbf24;
+  --accent-tech-history: #f472b6;
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont,
+    'Helvetica Neue', sans-serif;
+  background-color: var(--surface);
+  color: var(--text-primary);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 20%, rgba(96, 165, 250, 0.25), transparent),
+    radial-gradient(circle at 80% 0%, rgba(248, 113, 113, 0.2), transparent),
+    var(--surface);
+  color: var(--text-primary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.glass-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+:root {
+  --panel-surface: rgba(12, 14, 24, 0.95);
+  --panel-border: rgba(255, 255, 255, 0.08);
+}
+
+.mat-mdc-select-panel,
+.mat-mdc-menu-panel,
+.mat-datepicker-content {
+  background: var(--panel-surface) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.mat-mdc-option.mdc-list-item,
+.mat-calendar-body-cell-content {
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text,
+.mat-calendar-body-selected {
+  color: #05060b !important;
+  background: linear-gradient(135deg, #4fd1c5, #22d3ee) !important;
+}
+
+.mat-calendar-body-cell-content {
+  border-radius: 8px;
+}
