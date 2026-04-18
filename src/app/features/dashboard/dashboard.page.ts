@@ -42,7 +42,8 @@ import { Article } from '../../core/types';
           <p class="eyebrow">Live editorial briefing</p>
           <h1>{{ selectedCategoryLabel() }} stories on deck</h1>
           <p class="subcopy">
-            Curated intelligence across tech, science, space, math, and history. Pick a signal, spin a narrative, publish faster.
+            Curated intelligence across tech, science, space, math, and history. Pick a signal, spin
+            a narrative, publish faster.
           </p>
           <div class="hero__badges">
             <span class="badge">Category • {{ selectedCategoryLabel() }}</span>
@@ -84,7 +85,9 @@ import { Article } from '../../core/types';
             <mat-label>Source</mat-label>
             <mat-select formControlName="source">
               <mat-option value="">All sources</mat-option>
-              <mat-option *ngFor="let source of sources()" [value]="source">{{ source }}</mat-option>
+              <mat-option *ngFor="let source of sources()" [value]="source">{{
+                source
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="outline">
@@ -132,15 +135,13 @@ import { Article } from '../../core/types';
         </button>
       </div>
 
-      <mat-progress-bar
-        *ngIf="loading()"
-        mode="indeterminate"
-        color="accent"
-      ></mat-progress-bar>
+      <mat-progress-bar *ngIf="loading()" mode="indeterminate" color="accent"></mat-progress-bar>
 
       <section class="article-grid" [class.loading]="loading()">
         <article class="article-card" *ngFor="let article of articles()">
-          <div class="badge" [style.background]="articleColors[article.category]">{{ article.category }}</div>
+          <div class="badge" [style.background]="articleColors[article.category]">
+            {{ article.category }}
+          </div>
           <h3>{{ article.title }}</h3>
           <p>{{ article.summary }}</p>
           <div class="meta">
@@ -149,7 +150,15 @@ import { Article } from '../../core/types';
           </div>
           <div class="actions">
             <a mat-stroked-button color="primary" [routerLink]="['/articles', article._id]">Open</a>
-            <button mat-button (click)="openArticleUrl(article.url)" type="button">Source</button>
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="openArticleUrl(article.url)"
+              class="cta-button cta-button--ghost cta-button--compact"
+            >
+              <mat-icon>travel_explore</mat-icon>
+              <span>Source</span>
+            </button>
           </div>
         </article>
         <ng-container *ngIf="loading()">
@@ -180,7 +189,8 @@ import { Article } from '../../core/types';
         display: flex;
         flex-wrap: wrap;
         gap: 2rem;
-        background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.25), transparent 45%),
+        background:
+          radial-gradient(circle at top right, rgba(96, 165, 250, 0.25), transparent 45%),
           rgba(10, 12, 22, 0.95);
         padding: 2rem;
         border-radius: 28px;
@@ -396,10 +406,7 @@ export class DashboardPageComponent implements OnInit {
   private readonly snackBar = inject(MatSnackBar);
 
   readonly selectedCategoryLabel = computed(() => {
-    return (
-      this.categories.find((cat) => cat.value === this.selectedCategory())?.label ??
-      'All'
-    );
+    return this.categories.find((cat) => cat.value === this.selectedCategory())?.label ?? 'All';
   });
 
   readonly filterForm = this.fb.group({
@@ -473,9 +480,7 @@ export class DashboardPageComponent implements OnInit {
         next: (response) => {
           const items = response.items ?? [];
           this.articles.set(items);
-          this.sources.set(
-            Array.from(new Set(items.map((item) => item.sourceName))).sort(),
-          );
+          this.sources.set(Array.from(new Set(items.map((item) => item.sourceName))).sort());
           this.total.set(response.total ?? items.length ?? 0);
           this.generatedCount.set(items.filter((item) => item.hasGeneratedContent).length);
           this.lastUpdated.set(

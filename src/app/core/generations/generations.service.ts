@@ -1,6 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ApiClientService } from '../api/api-client.service';
-import { Generation, ShareGenerationPayload } from '../types';
+import { Generation, PostIdea, ShareGenerationPayload, VoiceProfile } from '../types';
+
+export interface VoiceCloneOptions {
+  text?: string;
+  language?: string;
+  format?: 'mp3' | 'wav';
+  speed?: number;
+  voiceId?: string;
+  modelId?: string;
+  stability?: number;
+  similarityBoost?: number;
+  style?: number;
+  useSpeakerBoost?: boolean;
+  optimizeStreamingLatency?: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class GenerationsService {
@@ -21,6 +35,10 @@ export class GenerationsService {
     return this.api.get<Generation>(`/generations/${id}`);
   }
 
+  listVoices() {
+    return this.api.get<VoiceProfile[]>(`/generations/voices`);
+  }
+
   regenerate(id: string, body: any) {
     return this.api.post<Generation>(`/generations/${id}/regenerate`, body);
   }
@@ -29,7 +47,10 @@ export class GenerationsService {
     return this.api.patch<Generation>(`/generations/${id}/save`, { saved });
   }
 
-  updateMeta(id: string, payload: { tags?: string[]; notes?: string }) {
+  updateMeta(
+    id: string,
+    payload: { tags?: string[]; notes?: string; postIdeas?: PostIdea[] },
+  ) {
     return this.api.patch<Generation>(`/generations/${id}/meta`, payload);
   }
 
@@ -52,7 +73,7 @@ export class GenerationsService {
     return this.api.delete(`/generations/${id}`);
   }
 
-  downloadVoice(id: string, body: { text?: string; language?: string; format?: string; speed?: number }) {
+  downloadVoice(id: string, body: VoiceCloneOptions) {
     return this.api.postBlob(`/generations/${id}/voice`, body ?? {});
   }
 }

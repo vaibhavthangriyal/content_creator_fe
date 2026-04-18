@@ -14,8 +14,14 @@
   --accent-space: #60a5fa;
   --accent-math: #fbbf24;
   --accent-tech-history: #f472b6;
-  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont,
-    'Helvetica Neue', sans-serif;
+  font-family:
+    'Space Grotesk',
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Helvetica Neue',
+    sans-serif;
   background-color: var(--surface);
   color: var(--text-primary);
 }
@@ -27,9 +33,9 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(circle at 20% 20%, rgba(96, 165, 250, 0.25), transparent),
-    radial-gradient(circle at 80% 0%, rgba(248, 113, 113, 0.2), transparent),
-    var(--surface);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(96, 165, 250, 0.25), transparent),
+    radial-gradient(circle at 80% 0%, rgba(248, 113, 113, 0.2), transparent), var(--surface);
   color: var(--text-primary);
 }
 
@@ -80,4 +86,84 @@ a {
 
 .mat-calendar-body-cell-content {
   border-radius: 8px;
+}
+
+.cta-button,
+.cta-button:visited {
+  --cta-glow: rgba(79, 209, 197, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 180ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+  border: 1px solid transparent;
+}
+
+.cta-button mat-icon,
+.cta-button .mat-icon {
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.cta-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.25), transparent 55%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+  z-index: -1;
+}
+
+.cta-button--primary {
+  background: linear-gradient(120deg, #22d3ee, #0ea5e9 55%, #38bdf8);
+  color: #041014;
+  box-shadow: 0 12px 30px rgba(14, 165, 233, 0.25);
+}
+
+.cta-button--ghost {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.cta-button--ghost:hover {
+  border-color: rgba(79, 209, 197, 0.6);
+}
+
+.cta-button--compact {
+  padding: 0.65rem 1.25rem;
+  font-size: 0.92rem;
+}
+
+@media (hover: hover) {
+  .cta-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 35px rgba(14, 165, 233, 0.35);
+  }
+
+  .cta-button:hover::after {
+    opacity: 1;
+  }
+}
+
+.cta-button:disabled,
+.cta-button[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
 }

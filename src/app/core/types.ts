@@ -26,10 +26,19 @@ export interface Article {
 
 export interface GenerationOutput {
   script: string;
+  scriptStructured?: Record<string, unknown>;
   youtubeTitles: string[];
   instagramTitles: string[];
   instagramCaptions: string[];
   thumbnailTexts: string[];
+  postIdeas: PostIdea[];
+}
+
+export interface PostIdea {
+  heading: string;
+  body: string;
+  imageUrl: string;
+  templateId?: string;
 }
 
 export interface Generation {
@@ -52,4 +61,13 @@ export interface Generation {
 export interface ShareGenerationPayload {
   generation: Pick<Generation, 'output' | 'inputConfig' | 'tags' | 'notes' | 'createdAt'>;
   article: Article;
+}
+
+export interface VoiceProfile {
+  id: string;
+  name: string;
+  previewUrl?: string;
+  category?: string;
+  labels?: Record<string, string>;
+  language?: string;
 }

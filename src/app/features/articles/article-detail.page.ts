@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
 import { ArticlesService } from '../../core/articles/articles.service';
 import { GenerationsService } from '../../core/generations/generations.service';
 import { Article } from '../../core/types';
@@ -20,6 +21,7 @@ import { Article } from '../../core/types';
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
+    MatIconModule,
     MatFormFieldModule,
     MatSelectModule,
     MatSlideToggleModule,
@@ -33,7 +35,16 @@ import { Article } from '../../core/types';
         <p class="meta">{{ item.sourceName }} • {{ item.publishedAt | date: 'medium' }}</p>
         <p class="summary">{{ item.summary }}</p>
         <div class="actions">
-          <a mat-button color="primary" [href]="item.url" target="_blank">View original</a>
+          <a
+            mat-stroked-button
+            class="cta-button cta-button--ghost"
+            [href]="item.url"
+            target="_blank"
+            rel="noopener"
+          >
+            <mat-icon>north_east</mat-icon>
+            <span>View original</span>
+          </a>
         </div>
       </mat-card>
 
@@ -82,9 +93,21 @@ import { Article } from '../../core/types';
               </mat-select>
             </mat-form-field>
           </div>
-          <mat-slide-toggle formControlName="save">Save to history</mat-slide-toggle>
-          <button mat-flat-button color="primary" [disabled]="loading()">
-            {{ loading() ? 'Generating...' : 'Generate content' }}
+          <div class="save-toggle">
+            <div>
+              <p>Save to history</p>
+              <small>Bookmark this configuration in your library.</small>
+            </div>
+            <mat-slide-toggle
+              formControlName="save"
+              color="accent"
+              aria-label="Toggle save to history"
+              class="save-toggle__switch"
+            ></mat-slide-toggle>
+          </div>
+          <button mat-flat-button class="cta-button cta-button--primary" [disabled]="loading()">
+            <mat-icon>{{ loading() ? 'autorenew' : 'auto_awesome' }}</mat-icon>
+            <span>{{ loading() ? 'Generating...' : 'Generate content' }}</span>
           </button>
         </form>
         <mat-progress-bar *ngIf="loading()" mode="indeterminate"></mat-progress-bar>
@@ -118,8 +141,30 @@ import { Article } from '../../core/types';
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 1rem;
       }
-      button {
+      .actions {
+        margin-top: 1.25rem;
+      }
+      .save-toggle {
         margin-top: 1rem;
+        padding: 0.85rem 1.25rem;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .save-toggle p {
+        margin: 0;
+        font-weight: 600;
+      }
+      .save-toggle small {
+        display: block;
+        margin-top: 0.15rem;
+        color: var(--text-muted);
+      }
+      .save-toggle__switch {
+        margin-left: auto;
       }
     `,
   ],
