@@ -63,6 +63,13 @@ export const routes: Routes = [
             (m) => m.SettingsPageComponent,
           ),
       },
+      {
+        path: 'tts-lab',
+        loadComponent: () =>
+          import('./features/tts/tts-lab.page').then(
+            (m) => m.TtsLabPageComponent,
+          ),
+      },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

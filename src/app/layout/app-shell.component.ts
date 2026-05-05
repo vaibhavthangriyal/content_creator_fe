@@ -26,6 +26,7 @@ import { AuthService } from '../core/auth/auth.service';
         <nav>
           <a mat-button routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
           <a mat-button routerLink="/history" routerLinkActive="active">History</a>
+          <a mat-button routerLink="/tts-lab" routerLinkActive="active">TTS Lab</a>
           <a mat-button routerLink="/settings" routerLinkActive="active">Settings</a>
         </nav>
         <div class="profile" *ngIf="user() as current">
