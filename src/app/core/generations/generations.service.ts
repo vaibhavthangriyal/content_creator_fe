@@ -76,4 +76,8 @@ export class GenerationsService {
   downloadVoice(id: string, body: VoiceCloneOptions) {
     return this.api.postBlob(`/generations/${id}/voice`, body ?? {});
   }
+
+  generateAudio(id: string) {
+    return this.api.postBlob(`/generations/${id}/audio`, {});
+  }
 }

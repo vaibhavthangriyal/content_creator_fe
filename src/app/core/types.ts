@@ -27,6 +27,7 @@ export interface Article {
 export interface GenerationOutput {
   script: string;
   scriptStructured?: Record<string, unknown>;
+  dialogs?: string;
   youtubeTitles: string[];
   instagramTitles: string[];
   instagramCaptions: string[];

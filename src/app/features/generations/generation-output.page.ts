@@ -335,6 +335,20 @@ import { environment } from '../../../environments/environment';
             </div>
           </div>
           <pre class="script-content">{{ scriptNarrative(gen.output) }}</pre>
+          <div class="script-audio-action">
+            <button
+              mat-flat-button
+              color="accent"
+              type="button"
+              (click)="generateAudio(gen)"
+              [disabled]="voiceLoading()"
+            >
+              <mat-icon [class.spin]="voiceLoading()">
+                {{ voiceLoading() ? 'autorenew' : 'volume_up' }}
+              </mat-icon>
+              <span>{{ voiceLoading() ? 'Generating audio...' : 'Generate Audio' }}</span>
+            </button>
+          </div>
         </section>
 
         <section class="glass list-panel">
@@ -664,6 +678,11 @@ import { environment } from '../../../environments/environment';
         align-items: center;
         gap: 0.4rem;
       }
+      .script-audio-action {
+        margin-top: 0.9rem;
+        display: flex;
+        justify-content: flex-end;
+      }
       .script-actions mat-icon {
         margin-right: 0.25rem;
       }
@@ -832,6 +851,22 @@ export class GenerationOutputPageComponent implements OnInit {
           this.voiceLoading.set(false);
         },
       });
+  }
+
+  generateAudio(generation: Generation) {
+    if (this.voiceLoading()) return;
+    this.voiceLoading.set(true);
+    this.service.generateAudio(generation._id).subscribe({
+      next: (blob) => {
+        this.saveBlob(blob, this.buildVoiceFilename(generation, 'mp3'));
+        this.notify('Audio generated');
+        this.voiceLoading.set(false);
+      },
+      error: () => {
+        this.notify('Audio generation failed');
+        this.voiceLoading.set(false);
+      },
+    });
   }
 
   regenerate(id: string) {
@@ -1158,50 +1193,11 @@ export class GenerationOutputPageComponent implements OnInit {
   }
 
   private extractDialogLines(output: GenerationOutput) {
-    return this.extractDialogLinesFromScriptContent(output.scriptStructured);
-  }
-
-  private extractDialogLinesFromScriptContent(scriptStructured: unknown) {
-    if (!scriptStructured || typeof scriptStructured !== 'object' || Array.isArray(scriptStructured)) {
-      return [];
-    }
-
-    const scriptContent = (scriptStructured as Record<string, unknown>)['scriptContent'];
-    if (!scriptContent || typeof scriptContent !== 'object' || Array.isArray(scriptContent)) {
-      return [];
-    }
-
-    const lines: string[] = [];
-    this.collectLinesFromScriptContentNode(scriptContent, lines);
-    return lines;
-  }
-
-  private collectLinesFromScriptContentNode(node: unknown, lines: string[]) {
-    if (!node) {
-      return;
-    }
-
-    if (Array.isArray(node)) {
-      node.forEach((item) => {
-        if (!item || typeof item !== 'object') {
-          return;
-        }
-        const record = item as Record<string, unknown>;
-        const line = record['line'];
-        if (typeof line === 'string' && line.trim()) {
-          lines.push(line.trim());
-        }
-      });
-      return;
-    }
-
-    if (typeof node !== 'object') {
-      return;
-    }
-
-    Object.values(node as Record<string, unknown>).forEach((value) =>
-      this.collectLinesFromScriptContentNode(value, lines),
-    );
+    const dialogs = (output.dialogs ?? '').toString();
+    return dialogs
+      .split(/\r?\n/)
+      .map((line) => (line ?? '').toString().trim())
+      .filter((line) => line.length > 0);
   }
 
   private saveBlob(blob: Blob, filename: string) {
