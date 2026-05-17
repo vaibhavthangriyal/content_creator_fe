@@ -70,6 +70,20 @@ export const routes: Routes = [
             (m) => m.TtsLabPageComponent,
           ),
       },
+      {
+        path: 'satsang/history',
+        loadComponent: () =>
+          import('./features/satsang/satsang-history.page').then(
+            (m) => m.SatsangHistoryPageComponent,
+          ),
+      },
+      {
+        path: 'satsang',
+        loadComponent: () =>
+          import('./features/satsang/satsang.page').then(
+            (m) => m.SatsangPageComponent,
+          ),
+      },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

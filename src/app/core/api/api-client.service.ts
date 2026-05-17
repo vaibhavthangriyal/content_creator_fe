@@ -40,6 +40,12 @@ export class ApiClientService {
     });
   }
 
+  getBlob(path: string) {
+    return this.http.get(`${this.baseUrl}${path}`, {
+      responseType: 'blob',
+    });
+  }
+
   private createParams(params?: Record<string, any>) {
     if (!params) {
       return new HttpParams();

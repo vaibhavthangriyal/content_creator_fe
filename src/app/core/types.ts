@@ -72,3 +72,27 @@ export interface VoiceProfile {
   labels?: Record<string, string>;
   language?: string;
 }
+
+export interface SatsangItem {
+  _id: string;
+  mood: string;
+  mainTheme: string;
+  script: string;
+  language: string;
+  format: 'mp3' | 'wav';
+  audioMimeType: string;
+  llmProvider: string;
+  llmModel: string;
+  llmTokenUsage?: number;
+  ttsProvider: string;
+  ttsVoice?: string;
+  ttsModel?: string;
+  videoPath?: string;
+  videoMimeType?: string;
+  videoWidth?: number;
+  videoHeight?: number;
+  videoGeneratedAt?: string;
+  videoVariantSeed?: string;
+  createdAt: string;
+  updatedAt: string;
+}
